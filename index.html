@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SeenBlock | Setup</title>
+    <title>SeenBlock | V3.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -23,83 +23,105 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow: hidden;
         }
 
         /* Hero Content */
         .hero { text-align: center; z-index: 1; }
-        h1 { font-size: clamp(3rem, 10vw, 5rem); margin-bottom: 20px; letter-spacing: -2px; }
+        h1 { font-size: clamp(3rem, 10vw, 5rem); margin-bottom: 20px; letter-spacing: -3px; font-weight: 800; }
         
         .btn {
-            padding: 16px 40px;
+            padding: 18px 48px;
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 14px;
+            border-radius: 16px;
             font-size: 1.1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
         }
 
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(99, 102, 241, 0.5); }
+        .btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4); }
 
         /* Modal Layout */
         #modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(15px);
+            background: rgba(0,0,0,0.9); backdrop-filter: blur(20px);
             display: none; justify-content: center; align-items: center; z-index: 100;
             padding: 20px;
         }
 
         .modal {
             background: #0f172a;
-            width: 100%; max-width: 500px;
-            padding: clamp(20px, 5vw, 40px); border-radius: 28px;
+            width: 100%; max-width: 480px;
+            padding: 40px; border-radius: 32px;
             border: 1px solid var(--border);
             position: relative;
-            animation: slideUp 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+            animation: slideUp 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
         }
 
-        @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Toggle Tabs */
+        /* Version Badge */
+        .version-tag {
+            position: absolute; top: 25px; left: 40px;
+            background: rgba(99, 102, 241, 0.15);
+            color: var(--primary);
+            padding: 4px 12px; border-radius: 100px;
+            font-size: 0.75rem; font-weight: 800;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+        }
+
+        /* Tabs */
         .tabs {
-            display: flex; background: rgba(255,255,255,0.05);
-            padding: 5px; border-radius: 12px; margin-bottom: 25px;
+            display: flex; background: rgba(255,255,255,0.03);
+            padding: 6px; border-radius: 14px; margin: 30px 0 20px 0;
+            border: 1px solid var(--border);
         }
 
         .tab {
-            flex: 1; padding: 10px; text-align: center; cursor: pointer;
-            border-radius: 8px; font-size: 0.9rem; font-weight: 600; transition: 0.2s;
+            flex: 1; padding: 12px; text-align: center; cursor: pointer;
+            border-radius: 10px; font-size: 0.9rem; font-weight: 600; transition: 0.2s;
             color: #64748b;
         }
 
-        .tab.active { background: var(--primary); color: white; }
+        .tab.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
 
-        h2 { margin-bottom: 10px; font-size: 1.8rem; letter-spacing: -1px; }
-        .instructions { text-align: left; margin-bottom: 25px; color: #94a3b8; line-height: 1.5; font-size: 0.95rem; }
-        .instructions b { color: white; }
+        h2 { margin-top: 10px; font-size: 2rem; letter-spacing: -1px; }
+        .instructions { text-align: left; margin-bottom: 25px; color: #94a3b8; line-height: 1.6; font-size: 0.95rem; }
+        .instructions b { color: white; font-weight: 600; }
 
-        /* Code Block */
         .code-box {
-            background: #020617; padding: 15px; border-radius: 12px;
-            border: 1px solid var(--border); font-family: monospace;
-            color: #818cf8; overflow-x: auto; margin-bottom: 15px;
+            background: #020617; padding: 18px; border-radius: 14px;
+            border: 1px solid var(--border); font-family: 'Courier New', monospace;
+            color: #818cf8; overflow: hidden; text-overflow: ellipsis; 
+            white-space: nowrap; margin-bottom: 20px; font-size: 0.8rem;
         }
 
         .copy-btn {
-            width: 100%; padding: 14px; background: white;
-            color: black; border: none; border-radius: 12px;
-            cursor: pointer; font-weight: 700; transition: 0.2s;
+            width: 100%; padding: 16px; background: white;
+            color: black; border: none; border-radius: 14px;
+            cursor: pointer; font-weight: 700; transition: all 0.2s;
+            font-size: 1rem;
         }
 
-        .copy-btn:hover { background: #e2e8f0; transform: scale(1.02); }
+        .copy-btn:hover { background: #f8fafc; transform: scale(1.01); }
 
         .close-modal {
-            position: absolute; top: 20px; right: 20px;
-            background: none; border: none; color: #475569;
-            font-size: 1.5rem; cursor: pointer;
+            position: absolute; top: 25px; right: 25px;
+            background: rgba(255,255,255,0.05); border: none; color: #94a3b8;
+            width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
         }
 
         .hidden { display: none; }
@@ -112,37 +134,39 @@
         <button class="btn" onclick="openModal()">Get Started</button>
     </div>
 
-    <div id="modal-overlay" onclick="closeModal(event)">
+    <div id="modal-overlay" onclick="closeModal()">
         <div class="modal" onclick="event.stopPropagation()">
-            <button class="close-modal" onclick="closeModal(event)">&times;</button>
-            <h2>Install SeenBlock</h2>
+            <div class="version-tag">V3.0</div>
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            
+            <h2>Setup Guide</h2>
             
             <div class="tabs">
                 <div class="tab active" id="tab-pc" onclick="switchMode('pc')">Computer</div>
-                <div class="tab" id="tab-mobile" onclick="switchMode('mobile')">I'm on Mobile</div>
+                <div class="tab" id="tab-mobile" onclick="switchMode('mobile')">Mobile</div>
             </div>
 
             <div id="instr-pc" class="instructions">
-                1. <b>Bookmark this page:</b> Press <b>Ctrl+D</b> (or Cmd+D).<br>
-                2. <b>Copy the Code:</b> Click the button below.<br>
-                3. <b>Edit it:</b> Right-click your new bookmark, select <b>Edit</b>, and paste the code into the <b>URL</b> box.
+                1. <b>Create Bookmark:</b> Press <b>Ctrl+D</b> to save this page.<br>
+                2. <b>Copy Code:</b> Click the white button below.<br>
+                3. <b>Paste Code:</b> Right-click the bookmark, select <b>Edit</b>, and paste the code into the <b>URL</b> box.
             </div>
 
             <div id="instr-mobile" class="instructions hidden">
-                1. <b>Bookmark this page:</b> Tap the three dots &star; or Share icon.<br>
-                2. <b>Copy the Code:</b> Click the button below.<br>
-                3. <b>Edit it:</b> Go to your Bookmarks, find this one, tap <b>Edit</b>, and paste the code into the <b>Address/URL</b> field.<br>
-                4. <b>To Use:</b> Type "SeenBlock" in your address bar while on any site and tap the result!
+                1. <b>Bookmark Page:</b> Tap the <b>Star</b> or <b>Share</b> icon.<br>
+                2. <b>Copy Code:</b> Click the white button below.<br>
+                3. <b>Edit Bookmark:</b> Go to your saved bookmarks, tap <b>Edit</b>, and paste the code into the <b>Address</b> field.<br>
+                4. <b>To Run:</b> While on a site, type "SeenBlock" in your address bar and tap the bookmark!
             </div>
             
-            <div class="code-box">javascript:(function(){...})();</div>
+            <div class="code-box">javascript:(function(){/* SeenBlock_V3 */ ... })();</div>
 
-            <button class="copy-btn" id="copyBtn" onclick="copyCode()">Copy Code</button>
+            <button class="copy-btn" id="copyBtn" onclick="copyCode()">Copy Script</button>
         </div>
     </div>
 
     <script>
-        const bookmarkCode = 'javascript:(function(){const style=document.createElement("style");style.innerHTML=".sb-note{position:fixed;top:20px;right:20px;background:rgba(15,15,15,0.9);backdrop-filter:blur(10px);color:#fff;padding:12px 20px;border-radius:14px;font-family:sans-serif;box-shadow:0 10px 30px rgba(0,0,0,0.3);z-index:1000000;transition:all 0.4s;transform:translateX(150%)}.sb-note.show{transform:translateX(0)}";document.head.appendChild(style);const notify=()=>{const el=document.createElement("div");el.className="sb-note";el.innerHTML="✓ SeenBlock: Ad blocked";document.body.appendChild(el);setTimeout(()=>el.classList.add("show"),100);setTimeout(()=>{el.classList.remove("show");setTimeout(()=>el.remove(),400)},3000)};const selectors=["[class*=\'ad-\']",".adsbygoogle","[aria-label=\'ads\']"];let found=false;selectors.forEach(s=>{document.querySelectorAll(s).forEach(ad=>{ad.remove();found=true})});if(found)notify();})();';
+        const bookmarkCode = 'javascript:(function(){const style=document.createElement("style");style.innerHTML=".sb-note{position:fixed;top:20px;right:20px;background:rgba(15,15,15,0.95);backdrop-filter:blur(10px);color:#fff;padding:12px 20px;border-radius:14px;font-family:sans-serif;box-shadow:0 10px 30px rgba(0,0,0,0.3);z-index:1000000;transition:all 0.4s;transform:translateX(150%);border:1px solid rgba(255,255,255,0.1)}.sb-note.show{transform:translateX(0)}";document.head.appendChild(style);const notify=()=>{const el=document.createElement("div");el.className="sb-note";el.innerHTML="✓ SeenBlock: Ad blocked";document.body.appendChild(el);setTimeout(()=>el.classList.add("show"),100);setTimeout(()=>{el.classList.remove("show");setTimeout(()=>el.remove(),400)},3000)};const selectors=["[class*=\'ad-\']",".adsbygoogle","[aria-label=\'ads\']","[class*=\'sponsored\']"];let found=false;selectors.forEach(s=>{document.querySelectorAll(s).forEach(ad=>{ad.remove();found=true})});if(found)notify();})();';
 
         function openModal() {
             document.getElementById('modal-overlay').style.display = 'flex';
@@ -174,12 +198,12 @@
         function copyCode() {
             navigator.clipboard.writeText(bookmarkCode);
             const btn = document.getElementById('copyBtn');
-            btn.innerText = "Copied! Now go edit your bookmark.";
+            btn.innerText = "Copied! Ready to Paste.";
             btn.style.background = "#10b981";
             btn.style.color = "white";
             
             setTimeout(() => {
-                btn.innerText = "Copy Code";
+                btn.innerText = "Copy Script";
                 btn.style.background = "white";
                 btn.style.color = "black";
             }, 3000);

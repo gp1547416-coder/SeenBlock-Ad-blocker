@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SeenBlock | V3.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>SeenBlock | V3.1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #6366f1;
@@ -28,7 +28,27 @@
 
         /* Hero Content */
         .hero { text-align: center; z-index: 1; }
-        h1 { font-size: clamp(3rem, 10vw, 5rem); margin-bottom: 20px; letter-spacing: -3px; font-weight: 800; }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .main-logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), #a855f7);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+        }
+
+        h1 { font-size: clamp(3rem, 10vw, 5rem); letter-spacing: -3px; font-weight: 800; }
         
         .btn {
             padding: 18px 48px;
@@ -43,7 +63,7 @@
             box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
         }
 
-        .btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4); }
+        .btn:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(99, 102, 241, 0.4); }
 
         /* Modal Layout */
         #modal-overlay {
@@ -59,6 +79,7 @@
             padding: 40px; border-radius: 32px;
             border: 1px solid var(--border);
             position: relative;
+            text-align: center;
             animation: slideUp 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
         }
 
@@ -73,13 +94,6 @@
             font-size: 0.75rem; font-weight: 800;
             border: 1px solid rgba(99, 102, 241, 0.3);
             letter-spacing: 1px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(99, 102, 241, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
         }
 
         /* Tabs */
@@ -95,15 +109,15 @@
             color: #64748b;
         }
 
-        .tab.active { background: var(--primary); color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .tab.active { background: var(--primary); color: white; }
 
         h2 { margin-top: 10px; font-size: 2rem; letter-spacing: -1px; }
         .instructions { text-align: left; margin-bottom: 25px; color: #94a3b8; line-height: 1.6; font-size: 0.95rem; }
-        .instructions b { color: white; font-weight: 600; }
+        .instructions b { color: white; }
 
         .code-box {
             background: #020617; padding: 18px; border-radius: 14px;
-            border: 1px solid var(--border); font-family: 'Courier New', monospace;
+            border: 1px solid var(--border); font-family: monospace;
             color: #818cf8; overflow: hidden; text-overflow: ellipsis; 
             white-space: nowrap; margin-bottom: 20px; font-size: 0.8rem;
         }
@@ -130,16 +144,31 @@
 <body>
 
     <div class="hero">
-        <h1>SeenBlock</h1>
+        <div class="logo-container">
+            <div class="main-logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <line x1="9" y1="12" x2="15" y2="12"></line>
+                </svg>
+            </div>
+            <h1>SeenBlock</h1>
+        </div>
         <button class="btn" onclick="openModal()">Get Started</button>
     </div>
 
     <div id="modal-overlay" onclick="closeModal()">
         <div class="modal" onclick="event.stopPropagation()">
-            <div class="version-tag">V3.0</div>
+            <div class="version-tag">V3.1</div>
             <button class="close-modal" onclick="closeModal()">&times;</button>
             
-            <h2>Setup Guide</h2>
+            <div class="main-logo" style="margin: 0 auto 20px auto; width: 50px; height: 50px;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <line x1="9" y1="12" x2="15" y2="12"></line>
+                </svg>
+            </div>
+
+            <h2>Setup SeenBlock</h2>
             
             <div class="tabs">
                 <div class="tab active" id="tab-pc" onclick="switchMode('pc')">Computer</div>
@@ -147,19 +176,19 @@
             </div>
 
             <div id="instr-pc" class="instructions">
-                1. <b>Create Bookmark:</b> Press <b>Ctrl+D</b> to save this page.<br>
-                2. <b>Copy Code:</b> Click the white button below.<br>
-                3. <b>Paste Code:</b> Right-click the bookmark, select <b>Edit</b>, and paste the code into the <b>URL</b> box.
+                1. <b>Create Bookmark:</b> Press <b>Ctrl+D</b>.<br>
+                2. <b>Copy Code:</b> Click the button below.<br>
+                3. <b>Edit Bookmark:</b> Right-click it, select <b>Edit</b>, and paste the code into the <b>URL</b> box.
             </div>
 
             <div id="instr-mobile" class="instructions hidden">
-                1. <b>Bookmark Page:</b> Tap the <b>Star</b> or <b>Share</b> icon.<br>
-                2. <b>Copy Code:</b> Click the white button below.<br>
-                3. <b>Edit Bookmark:</b> Go to your saved bookmarks, tap <b>Edit</b>, and paste the code into the <b>Address</b> field.<br>
-                4. <b>To Run:</b> While on a site, type "SeenBlock" in your address bar and tap the bookmark!
+                1. <b>Bookmark This:</b> Tap the <b>Star/Share</b> icon.<br>
+                2. <b>Copy Code:</b> Click the button below.<br>
+                3. <b>Edit:</b> Find the bookmark in your list, tap <b>Edit</b>, and paste code into <b>Address</b>.<br>
+                4. <b>Run:</b> Type "SeenBlock" in your address bar on any site!
             </div>
             
-            <div class="code-box">javascript:(function(){/* SeenBlock_V3 */ ... })();</div>
+            <div class="code-box">javascript:(function(){/* SeenBlock_V3.1 */ ... })();</div>
 
             <button class="copy-btn" id="copyBtn" onclick="copyCode()">Copy Script</button>
         </div>
@@ -198,7 +227,7 @@
         function copyCode() {
             navigator.clipboard.writeText(bookmarkCode);
             const btn = document.getElementById('copyBtn');
-            btn.innerText = "Copied! Ready to Paste.";
+            btn.innerText = "✓ Copied Successfully";
             btn.style.background = "#10b981";
             btn.style.color = "white";
             

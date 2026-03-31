@@ -22,13 +22,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
         }
 
         /* Hero Content */
         .hero { text-align: center; z-index: 1; }
-        h1 { font-size: 4rem; margin-bottom: 20px; letter-spacing: -2px; }
+        h1 { font-size: clamp(3rem, 10vw, 5rem); margin-bottom: 20px; letter-spacing: -2px; }
         
         .btn {
             padding: 16px 40px;
@@ -39,23 +38,24 @@
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.2s;
             box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
         }
 
         .btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(99, 102, 241, 0.5); }
 
-        /* Modal Logic */
+        /* Modal Layout */
         #modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(12px);
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(15px);
             display: none; justify-content: center; align-items: center; z-index: 100;
+            padding: 20px;
         }
 
         .modal {
             background: #0f172a;
-            width: 90%; max-width: 500px;
-            padding: 40px; border-radius: 28px;
+            width: 100%; max-width: 500px;
+            padding: clamp(20px, 5vw, 40px); border-radius: 28px;
             border: 1px solid var(--border);
             position: relative;
             animation: slideUp 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
@@ -63,37 +63,46 @@
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-        h2 { margin-bottom: 15px; font-size: 1.8rem; }
-        ol { text-align: left; margin-bottom: 25px; color: #94a3b8; line-height: 1.6; }
-        li { margin-bottom: 10px; }
+        /* Toggle Tabs */
+        .tabs {
+            display: flex; background: rgba(255,255,255,0.05);
+            padding: 5px; border-radius: 12px; margin-bottom: 25px;
+        }
+
+        .tab {
+            flex: 1; padding: 10px; text-align: center; cursor: pointer;
+            border-radius: 8px; font-size: 0.9rem; font-weight: 600; transition: 0.2s;
+            color: #64748b;
+        }
+
+        .tab.active { background: var(--primary); color: white; }
+
+        h2 { margin-bottom: 10px; font-size: 1.8rem; letter-spacing: -1px; }
+        .instructions { text-align: left; margin-bottom: 25px; color: #94a3b8; line-height: 1.5; font-size: 0.95rem; }
+        .instructions b { color: white; }
 
         /* Code Block */
         .code-box {
-            background: #020617;
-            padding: 15px; border-radius: 12px;
-            border: 1px solid var(--border);
-            font-family: monospace; font-size: 0.85rem;
-            color: #818cf8; overflow-x: auto;
-            white-space: nowrap; margin-bottom: 20px;
-            position: relative;
+            background: #020617; padding: 15px; border-radius: 12px;
+            border: 1px solid var(--border); font-family: monospace;
+            color: #818cf8; overflow-x: auto; margin-bottom: 15px;
         }
 
         .copy-btn {
-            width: 100%; padding: 12px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border);
-            color: white; border-radius: 10px;
-            cursor: pointer; font-weight: 600;
-            transition: all 0.2s;
+            width: 100%; padding: 14px; background: white;
+            color: black; border: none; border-radius: 12px;
+            cursor: pointer; font-weight: 700; transition: 0.2s;
         }
 
-        .copy-btn:hover { background: white; color: black; }
+        .copy-btn:hover { background: #e2e8f0; transform: scale(1.02); }
 
         .close-modal {
             position: absolute; top: 20px; right: 20px;
             background: none; border: none; color: #475569;
             font-size: 1.5rem; cursor: pointer;
         }
+
+        .hidden { display: none; }
     </style>
 </head>
 <body>
@@ -107,15 +116,26 @@
         <div class="modal" onclick="event.stopPropagation()">
             <button class="close-modal" onclick="closeModal(event)">&times;</button>
             <h2>Install SeenBlock</h2>
-            <ol>
-                <li><strong>Create a bookmark:</strong> Right-click your bookmarks bar and select "Add Page."</li>
-                <li><strong>Copy the code:</strong> Click the button below to copy the magic script.</li>
-                <li><strong>Paste & Save:</strong> Edit your new bookmark, delete the URL, and paste the code there!</li>
-            </ol>
             
-            <div class="code-box" id="codeText">
-                javascript:(function(){/* SeenBlock Code */ console.log("Ad Blocked"); })();
+            <div class="tabs">
+                <div class="tab active" id="tab-pc" onclick="switchMode('pc')">Computer</div>
+                <div class="tab" id="tab-mobile" onclick="switchMode('mobile')">I'm on Mobile</div>
             </div>
+
+            <div id="instr-pc" class="instructions">
+                1. <b>Bookmark this page:</b> Press <b>Ctrl+D</b> (or Cmd+D).<br>
+                2. <b>Copy the Code:</b> Click the button below.<br>
+                3. <b>Edit it:</b> Right-click your new bookmark, select <b>Edit</b>, and paste the code into the <b>URL</b> box.
+            </div>
+
+            <div id="instr-mobile" class="instructions hidden">
+                1. <b>Bookmark this page:</b> Tap the three dots &star; or Share icon.<br>
+                2. <b>Copy the Code:</b> Click the button below.<br>
+                3. <b>Edit it:</b> Go to your Bookmarks, find this one, tap <b>Edit</b>, and paste the code into the <b>Address/URL</b> field.<br>
+                4. <b>To Use:</b> Type "SeenBlock" in your address bar while on any site and tap the result!
+            </div>
+            
+            <div class="code-box">javascript:(function(){...})();</div>
 
             <button class="copy-btn" id="copyBtn" onclick="copyCode()">Copy Code</button>
         </div>
@@ -126,23 +146,43 @@
 
         function openModal() {
             document.getElementById('modal-overlay').style.display = 'flex';
-            document.getElementById('codeText').innerText = bookmarkCode.substring(0, 50) + "...";
         }
 
-        function closeModal(e) {
+        function closeModal() {
             document.getElementById('modal-overlay').style.display = 'none';
+        }
+
+        function switchMode(mode) {
+            const pcTab = document.getElementById('tab-pc');
+            const mobileTab = document.getElementById('tab-mobile');
+            const pcInstr = document.getElementById('instr-pc');
+            const mobileInstr = document.getElementById('instr-mobile');
+
+            if (mode === 'mobile') {
+                mobileTab.classList.add('active');
+                pcTab.classList.remove('active');
+                mobileInstr.classList.remove('hidden');
+                pcInstr.classList.add('hidden');
+            } else {
+                pcTab.classList.add('active');
+                mobileTab.classList.remove('active');
+                pcInstr.classList.remove('hidden');
+                mobileInstr.classList.add('hidden');
+            }
         }
 
         function copyCode() {
             navigator.clipboard.writeText(bookmarkCode);
             const btn = document.getElementById('copyBtn');
-            btn.innerText = "Copied to Clipboard!";
+            btn.innerText = "Copied! Now go edit your bookmark.";
             btn.style.background = "#10b981";
+            btn.style.color = "white";
             
             setTimeout(() => {
                 btn.innerText = "Copy Code";
-                btn.style.background = "rgba(255,255,255,0.05)";
-            }, 2000);
+                btn.style.background = "white";
+                btn.style.color = "black";
+            }, 3000);
         }
     </script>
 </body>
